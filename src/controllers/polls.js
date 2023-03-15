@@ -13,10 +13,12 @@ const getPoll = (req, res) => {
 // Create a new poll
 const createPoll = (req, res) => {
   const newPoll = new Poll({
-    name: req.body.name || req.query.name,
-    description: req.body.description || req.query.description
+    name: req.body.name,
+    description: req.body.description,
+    questions: req.body.questions
   });
-  console.log(req.query.name);
+  console.log(`body req.body`);
+  console.log(`obj ${newPoll}`);
   newPoll.save().then(() => res.json(newPoll));
 };
 
@@ -24,7 +26,7 @@ const createPoll = (req, res) => {
 const updatePoll = (req, res) => {
   Poll.findByIdAndUpdate(
     req.params.id,
-    { name: req.body.name, description: req.body.description },
+    req.body,
     { new: true }
   )
     .then((poll) => res.json(poll));
